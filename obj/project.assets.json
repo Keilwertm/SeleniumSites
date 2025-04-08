@@ -811,11 +811,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\mkeilwert\\RiderProjects\\SeleniumStuff\\SeleniumStuff.csproj",
+      "projectUniqueName": "C:\\Users\\mkeilwert\\RiderProjects\\SeleniumSites\\SeleniumStuff.csproj",
       "projectName": "SeleniumStuff",
-      "projectPath": "C:\\Users\\mkeilwert\\RiderProjects\\SeleniumStuff\\SeleniumStuff.csproj",
+      "projectPath": "C:\\Users\\mkeilwert\\RiderProjects\\SeleniumSites\\SeleniumStuff.csproj",
       "packagesPath": "C:\\Users\\mkeilwert\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\mkeilwert\\RiderProjects\\SeleniumStuff\\obj\\",
+      "outputPath": "C:\\Users\\mkeilwert\\RiderProjects\\SeleniumSites\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
