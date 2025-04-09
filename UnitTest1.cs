@@ -28,16 +28,42 @@ namespace SeleniumStuff
         [Test]
         public void Test1()
         {
+            // Adding things to cart, validating total. 
             IWebElement browseSweets = driver.FindElement(By.CssSelector(".btn.btn-primary.btn-lg.sweets"));
             browseSweets.Click();
+        }
 
-            // webElement.SendKeys to type
+        public void Test2()
+        {
+            // Validate wrong login information 
+        }
+
+        public void Test3()
+        {
+            // catch missing image
+        }
+
+        public void Test4()
+        {
+            // check correct payment and billing information 
+        }
+
+        public void Test5()
+        {
+            // deleting and adding things to the cart updates the total, along with shipping
+        }
+
+        public void test6()
+        {
+            // promo code works properly and discounts the total 
         }
 
         [TearDown]
-            public void Cleanup()
-            {
-                driver.Quit();
-            }
+        public void Cleanup()
+        {
+            driver.Quit();
+        }
+        
+        // Add in Screenshots on fail? 
     }
 }
