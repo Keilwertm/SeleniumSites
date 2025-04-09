@@ -34,11 +34,16 @@ namespace SeleniumStuff
                 // Adding things to cart, validating total. 
                 
                 IWebDriver driver = new ChromeDriver();
+                driver.Manage().Window.Maximize();
                 driver.Navigate().GoToUrl("https://sweetshop.netlify.app/");
                 IWebElement browseSweets = driver.FindElement(By.LinkText("Sweets"));
                 browseSweets.Click();
-                IWebElement Item1 = driver.FindElement(By.ClassName(""));
+                IWebElement Item1 = driver.FindElement(By.CssSelector("a.addItem[data-id='1']"));
                 Item1.Click();
+                IWebElement Item2 = driver.FindElement(By.CssSelector("a.addItem[data-id='2']"));
+                Item2.Click();
+                IWebElement Item3 = driver.FindElement(By.CssSelector("a.addItem[data-id='3']"));
+                Item3.Click();
 
                 // I want to randomly click a random amount of sweets a random amount of times. Then add up the totals displayed for each click, and validate the total in the cart.
             }
