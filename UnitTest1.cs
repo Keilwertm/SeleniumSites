@@ -5,8 +5,8 @@ namespace SeleniumStuff
 {
     public class Tests
     {
-        private IWebDriver driver;
-        
+        public IWebDriver driver;
+
         [SetUp]
         public void Setup()
         {
@@ -22,48 +22,65 @@ namespace SeleniumStuff
             emailLogIn.SendKeys(("testemail@gmail.com"));
             IWebElement password = driver.FindElement(By.Id("exampleInputPassword"));
             password.Click();
-            password.SendKeys(("password123" + Keys.Enter));
-        }
-
-        [Test]
-        public void Test1()
-        {
-            // Adding things to cart, validating total. 
-            IWebElement browseSweets = driver.FindElement(By.CssSelector(".btn.btn-primary.btn-lg.sweets"));
-            browseSweets.Click();
-        }
-
-        public void Test2()
-        {
-            // Validate wrong login information 
-        }
-
-        public void Test3()
-        {
-            // catch missing image
-        }
-
-        public void Test4()
-        {
-            // check correct payment and billing information 
-        }
-
-        public void Test5()
-        {
-            // deleting and adding things to the cart updates the total, along with shipping
-        }
-
-        public void test6()
-        {
-            // promo code works properly and discounts the total 
-        }
-
-        [TearDown]
-        public void Cleanup()
-        {
+            password.SendKeys(("wq@#as#$!~AAA!" + Keys.Enter));
+            IWebElement sweetShop = driver.FindElement(By.ClassName("navbar-brand"));
+            sweetShop.Click();
             driver.Quit();
         }
         
-        // Add in Screenshots on fail? 
+        [Test]
+            public void Test1()
+            {
+                // Adding things to cart, validating total. 
+                
+                IWebDriver driver = new ChromeDriver();
+                driver.Navigate().GoToUrl("https://sweetshop.netlify.app/");
+                IWebElement browseSweets = driver.FindElement(By.LinkText("Sweets"));
+                browseSweets.Click();
+                IWebElement Item1 = driver.FindElement(By.ClassName(""));
+                Item1.Click();
+
+                // I want to randomly click a random amount of sweets a random amount of times. Then add up the totals displayed for each click, and validate the total in the cart.
+            }
+
+            public void Test2()
+            {
+                // Validate wrong login information 
+            }
+
+            public void Test3()
+            {
+                // catch missing image
+            }
+
+            public void Test4()
+            {
+                // check correct payment and billing information 
+            }
+
+            public void Test5()
+            {
+                // deleting and adding things to the cart updates the total, along with shipping
+            }
+
+            public void test6()
+            {
+                // promo code works properly and discounts the total 
+            }
+
+            [TearDown]
+            public void Teardown()
+            {
+                if (driver != null)
+                {
+                    driver.Quit();
+                }
+                else
+                {
+                    Console.WriteLine("Driver was not initialized.");
+                }
+            }
+            // Add in Screenshots on fail? 
+            // There has to be a better way to have a continuous test instead of opening the web driver for every test. 
+        }
     }
-}
