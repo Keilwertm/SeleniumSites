@@ -252,7 +252,7 @@ namespace SeleniumStuff
 
             for (int i = 0;
                  i < loopCandyToCart;
-                 i++) // This is supposed to loop through as many times as items added to the basket, but it does not
+                 i++) 
             {
                 IWebElement quantity1 = driver.FindElement(By.XPath("(//small[@class='text-muted'])[1]"));
                 quantity1.Click();
