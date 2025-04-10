@@ -26,7 +26,7 @@ namespace SeleniumStuff
             driver.Quit();
         }
         
-        [Test]
+            [Test]
             public void Test1()
             {
                 // Adding things to cart, validating total. 
@@ -106,22 +106,80 @@ namespace SeleniumStuff
                 {
                     Console.WriteLine("Total Values differ!");
                 }
+                
                 driver.Quit();
             }
 
+            [Test]
             public void Test2()
             {
                 // Validate wrong login information 
+                IWebDriver driver = new ChromeDriver();
+                driver.Navigate().GoToUrl("https://sweetshop.netlify.app/");
+                driver.Manage().Window.Maximize();
+                driver.Manage().Cookies.DeleteAllCookies();
+                IWebElement loginMainPage = driver.FindElement(By.LinkText("Login"));
+                loginMainPage.Click();
+                IWebElement emailLogIn = driver.FindElement(By.Id("exampleInputEmail"));
+                emailLogIn.Click();
+                emailLogIn.SendKeys(("incorrect email"));
+                IWebElement password = driver.FindElement(By.Id("exampleInputPassword"));
+                password.Click();
+                password.SendKeys(("" + Keys.Enter));
+                IWebElement invalidEmail = driver.FindElement(By.CssSelector(".invalid-feedback.invalid-email"));
+                IWebElement invalidPassword = driver.FindElement(By.CssSelector(".invalid-feedback.invalid-password"));
+                
+                if (invalidEmail.Displayed && invalidPassword.Displayed)
+                {
+                    Console.WriteLine("Invalid Login text is displayed!");
+                }
+                
+                driver.Quit();
             }
 
+            [Test]
             public void Test3()
             {
-                // catch missing image
-            }
+                // Catch missing image
+                IWebDriver driver = new ChromeDriver();
+                driver.Manage().Window.Maximize();
+                driver.Navigate().GoToUrl("https://sweetshop.netlify.app/");
+                IWebElement browseSweets = driver.FindElement(By.LinkText("Sweets"));
+                browseSweets.Click();
+                
+                var productCards = driver.FindElements(By.CssSelector("div.col-lg-3.col-md-6.mb-4"));
 
+                foreach (var productCard in productCards)
+                {
+                    // Find the image inside each product card
+                    IWebElement imageElement = productCard.FindElement(By.CssSelector("img.card-img-top"));
+                    string imageUrl = imageElement.GetAttribute("src");   // Getting the image source URL
+                    var jsExecutor = (IJavaScriptExecutor)driver; // Using JavaScript to access natural width and height
+                    var imageWidth = (long)jsExecutor.ExecuteScript("return arguments[0].naturalWidth;", imageElement);
+                    var imageHeight = (long)jsExecutor.ExecuteScript("return arguments[0].naturalHeight;", imageElement);
+                    
+                    if (string.IsNullOrEmpty(imageUrl) || imageUrl.Contains("missing") || imageUrl.Contains("404"))
+                    {
+                        Console.WriteLine("There is a missing Image source - invalid or missing.");
+                    }
+                    else if (imageWidth != 500 || imageHeight != 300)
+                    {
+                        Console.WriteLine($"Image has an invalid size. Expected 500px width and 300px height. Actual: {imageWidth}x{imageHeight}");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Image is valid and size is correct (500px width and 300px height).");
+                    }
+                }
+
+                driver.Quit();
+            }
+            
+           // [Test]
             public void Test4()
             {
-                // check correct payment and billing information 
+                // check correct payment and billing information or incorrect billing information
+                
             }
 
             public void Test5()
@@ -131,7 +189,7 @@ namespace SeleniumStuff
 
             public void Test6()
             {
-                // promo code works properly and discounts the total 
+                // promo code works properly and discounts the total -- I don't see any promo codes might scrap this one 
             }
 
             
@@ -143,6 +201,7 @@ namespace SeleniumStuff
             }
             // Add in Screenshots on fail? 
             // There has to be a better way to have a continuous test instead of opening the web driver for every test. 
+            // TearDown no work idk why 
             */
             
         }
