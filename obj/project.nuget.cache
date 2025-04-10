@@ -1,10 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "DrJpyAOV0nI=",
+  "dgSpecHash": "+0a2ArI5gdw=",
   "success": true,
   "projectFilePath": "C:\\Users\\mkeilwert\\RiderProjects\\SeleniumSites\\SeleniumStuff.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\mkeilwert\\.nuget\\packages\\coverlet.collector\\6.0.2\\coverlet.collector.6.0.2.nupkg.sha512",
+    "C:\\Users\\mkeilwert\\.nuget\\packages\\dotnetseleniumextras.waithelpers\\3.11.0\\dotnetseleniumextras.waithelpers.3.11.0.nupkg.sha512",
     "C:\\Users\\mkeilwert\\.nuget\\packages\\microsoft.codecoverage\\17.12.0\\microsoft.codecoverage.17.12.0.nupkg.sha512",
     "C:\\Users\\mkeilwert\\.nuget\\packages\\microsoft.net.test.sdk\\17.12.0\\microsoft.net.test.sdk.17.12.0.nupkg.sha512",
     "C:\\Users\\mkeilwert\\.nuget\\packages\\microsoft.testplatform.objectmodel\\17.12.0\\microsoft.testplatform.objectmodel.17.12.0.nupkg.sha512",

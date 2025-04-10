@@ -105,3 +105,4 @@ C:\Users\mkeilwert\RiderProjects\SeleniumSites\obj\Debug\net9.0\refint\SeleniumS
 C:\Users\mkeilwert\RiderProjects\SeleniumSites\obj\Debug\net9.0\SeleniumStuff.pdb
 C:\Users\mkeilwert\RiderProjects\SeleniumSites\obj\Debug\net9.0\SeleniumStuff.genruntimeconfig.cache
 C:\Users\mkeilwert\RiderProjects\SeleniumSites\obj\Debug\net9.0\ref\SeleniumStuff.dll
+C:\Users\mkeilwert\RiderProjects\SeleniumSites\bin\Debug\net9.0\SeleniumExtras.WaitHelpers.dll
