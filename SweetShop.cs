@@ -17,7 +17,7 @@ namespace SeleniumStuff
         {
             Console.WriteLine(
                 $"[{Thread.CurrentThread.ManagedThreadId}] Starting test: {TestContext.CurrentContext.Test.Name}");
-            driver = new ChromeDriver(); // <-- removed `IWebDriver`
+            driver = new ChromeDriver(); 
             driver.Navigate().GoToUrl("https://sweetshop.netlify.app/");
             driver.Manage().Window.Maximize();
             driver.Manage().Cookies.DeleteAllCookies();
@@ -27,7 +27,7 @@ namespace SeleniumStuff
         }
 
         [Test]
-        public void Test1()
+        public void Cart_Total()
         {
             // Adding things to cart, validating total. 
 
@@ -104,9 +104,10 @@ namespace SeleniumStuff
         }
 
         [Test]
-        public void Test2()
+        public void Improper_Login()
         {
             // Validate wrong login information 
+            
             driver.Navigate().GoToUrl("https://sweetshop.netlify.app/");
             driver.Manage().Cookies.DeleteAllCookies();
             IWebElement loginMainPage = driver.FindElement(By.LinkText("Login"));
@@ -127,9 +128,10 @@ namespace SeleniumStuff
         }
 
         [Test]
-        public void Test3()
+        public void Missing_Image()
         {
             // Catch missing image
+            
             driver.Navigate().GoToUrl("https://sweetshop.netlify.app/");
             IWebElement browseSweets = driver.FindElement(By.LinkText("Sweets"));
             browseSweets.Click();
@@ -163,7 +165,7 @@ namespace SeleniumStuff
         }
 
         [Test]
-        public void Test4()
+        public void Empty_Cart()
         {
             // deleting and adding things to the cart updates the total, along with shipping
 
@@ -267,6 +269,7 @@ namespace SeleniumStuff
 
             driver.Navigate().GoToUrl("https://sweetshop.netlify.app/basket");
             // I know this isn't ideal but EVERYTHING gives stale element after used once and I already got around two other instances of this
+            
             IWebElement emptyBasketButton = driver.FindElement(By.XPath("//a[contains(@onclick, 'emptyBasket')]"));
             emptyBasketButton.Click();
             IAlert alert2 = driver.SwitchTo().Alert();
@@ -281,17 +284,15 @@ namespace SeleniumStuff
                 Console.WriteLine(
                     "Error emptying basket!"); // This always displays Error emptying basket, even though the basket is empty. 
             }
-
             Thread.Sleep(2000);
         }
 
         [Test]
-        public void Test5()
+        public void Correct_Billing()
         {
             // check correct payment and billing information or incorrect billing information
+            
             driver.Navigate().GoToUrl("https://sweetshop.netlify.app/");
-
-            // Adding items to the cart 
 
             Random random = new Random();
             int loopCandyToCart = random.Next(3, 7);
@@ -375,9 +376,10 @@ namespace SeleniumStuff
         }
 
             [Test]
-            public void Test6()
+            public void Table_Sort()
             {
                 // Validate table is sorting correctly in the login page
+                
                 driver.Navigate().GoToUrl("https://sweetshop.netlify.app/");
                 
                 IWebElement loginMainPage = driver.FindElement(By.LinkText("Login"));
@@ -417,7 +419,6 @@ namespace SeleniumStuff
                 {
                     Console.WriteLine("Table didn't change or sorting had no effect.");
                 }
-                
             }
             
             [TearDown]
