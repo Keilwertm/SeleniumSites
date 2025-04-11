@@ -1,5 +1,8 @@
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using Shouldly;
+
+// use Shouldly and Playwright instead of Selenium 
 
 namespace SeleniumStuff;
 
