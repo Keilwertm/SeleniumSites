@@ -6,7 +6,7 @@ using OpenQA.Selenium.Support.UI;
 namespace SeleniumStuff
 {
     [TestFixture]
-    [Parallelizable(ParallelScope.All)]
+    [Parallelizable(ParallelScope.Self)]
 
     public class SweetStuff
     {
