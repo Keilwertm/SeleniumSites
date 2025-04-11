@@ -57,9 +57,25 @@
               "target": "Package",
               "version": "[3.11.0, )"
             },
+            "MSTest.TestAdapter": {
+              "target": "Package",
+              "version": "[3.9.0-preview.25167.10, )"
+            },
+            "MSTest.TestFramework": {
+              "target": "Package",
+              "version": "[3.9.0-preview.25167.10, )"
+            },
             "Microsoft.NET.Test.Sdk": {
               "target": "Package",
               "version": "[17.12.0, )"
+            },
+            "Microsoft.Playwright": {
+              "target": "Package",
+              "version": "[1.51.0, )"
+            },
+            "Microsoft.Playwright.TestAdapter": {
+              "target": "Package",
+              "version": "[1.51.0, )"
             },
             "Microsoft.Win32.SystemEvents": {
               "target": "Package",
@@ -76,6 +92,18 @@
             "NUnit3TestAdapter": {
               "target": "Package",
               "version": "[4.6.0, )"
+            },
+            "Playwright.Axe": {
+              "target": "Package",
+              "version": "[1.3.0, )"
+            },
+            "PlaywrightDriver": {
+              "target": "Package",
+              "version": "[1.1.27, )"
+            },
+            "PlaywrightSharp": {
+              "target": "Package",
+              "version": "[0.192.0, )"
             },
             "Selenium.Support": {
               "target": "Package",

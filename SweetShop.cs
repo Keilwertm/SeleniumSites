@@ -276,7 +276,7 @@ namespace SeleniumStuff
             alert2.Accept();
             
             Thread.Sleep(2000);
-         //   basketGbp.ShouldBe(0.00m, 0.01m);  check this later 
+         //   basketGbp.ShouldBe(0.00m, 0.01m);  check this later shouldly stuff to validate the cart = 0. It's currently taking the value before the cart is cleared for some reason.
             Thread.Sleep(2000);
         }
 
