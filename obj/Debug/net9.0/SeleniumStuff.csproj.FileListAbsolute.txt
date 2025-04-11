@@ -13,6 +13,7 @@ C:\Users\mkeilwert\RiderProjects\SeleniumSites\bin\Debug\net9.0\SeleniumStuff.de
 C:\Users\mkeilwert\RiderProjects\SeleniumSites\bin\Debug\net9.0\SeleniumStuff.runtimeconfig.json
 C:\Users\mkeilwert\RiderProjects\SeleniumSites\bin\Debug\net9.0\SeleniumStuff.dll
 C:\Users\mkeilwert\RiderProjects\SeleniumSites\bin\Debug\net9.0\SeleniumStuff.pdb
+C:\Users\mkeilwert\RiderProjects\SeleniumSites\bin\Debug\net9.0\SeleniumExtras.WaitHelpers.dll
 C:\Users\mkeilwert\RiderProjects\SeleniumSites\bin\Debug\net9.0\Microsoft.VisualStudio.CodeCoverage.Shim.dll
 C:\Users\mkeilwert\RiderProjects\SeleniumSites\bin\Debug\net9.0\Microsoft.TestPlatform.CoreUtilities.dll
 C:\Users\mkeilwert\RiderProjects\SeleniumSites\bin\Debug\net9.0\Microsoft.TestPlatform.PlatformAbstractions.dll
@@ -105,4 +106,3 @@ C:\Users\mkeilwert\RiderProjects\SeleniumSites\obj\Debug\net9.0\refint\SeleniumS
 C:\Users\mkeilwert\RiderProjects\SeleniumSites\obj\Debug\net9.0\SeleniumStuff.pdb
 C:\Users\mkeilwert\RiderProjects\SeleniumSites\obj\Debug\net9.0\SeleniumStuff.genruntimeconfig.cache
 C:\Users\mkeilwert\RiderProjects\SeleniumSites\obj\Debug\net9.0\ref\SeleniumStuff.dll
-C:\Users\mkeilwert\RiderProjects\SeleniumSites\bin\Debug\net9.0\SeleniumExtras.WaitHelpers.dll

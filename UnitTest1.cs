@@ -1,31 +1,35 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 
-
-
 namespace SeleniumStuff
 {
+    [TestFixture]
+    [Parallelizable(ParallelScope.Self)]
+    
     public class SweetStuff
     { 
+        private IWebDriver driver;
+        
         [SetUp]
         public void Setup()
         {
-            // Set up, logging in, clearing cookies, etc. 
-            IWebDriver driver = new ChromeDriver();
+            Console.WriteLine($"[{Thread.CurrentThread.ManagedThreadId}] Starting test: {TestContext.CurrentContext.Test.Name}");
+            driver = new ChromeDriver(); // <-- removed `IWebDriver`
             driver.Navigate().GoToUrl("https://sweetshop.netlify.app/");
             driver.Manage().Window.Maximize();
             driver.Manage().Cookies.DeleteAllCookies();
+    
             IWebElement loginMainPage = driver.FindElement(By.LinkText("Login"));
             loginMainPage.Click();
+
             IWebElement emailLogIn = driver.FindElement(By.Id("exampleInputEmail"));
-            emailLogIn.Click();
-            emailLogIn.SendKeys(("testemail@gmail.com"));
+            emailLogIn.SendKeys("testemail@gmail.com");
+
             IWebElement password = driver.FindElement(By.Id("exampleInputPassword"));
-            password.Click();
-            password.SendKeys(("wq@#as#$!~AAA!" + Keys.Enter));
+            password.SendKeys("wq@#as#$!~AAA!" + Keys.Enter);
+
             IWebElement sweetShop = driver.FindElement(By.ClassName("navbar-brand"));
             sweetShop.Click();
-            driver.Quit();
         }
         
         [Test]
@@ -34,8 +38,7 @@ namespace SeleniumStuff
             // Adding things to cart, validating total. 
 
             decimal total = 0;
-
-            IWebDriver driver = new ChromeDriver();
+            
             driver.Manage().Window.Maximize();
             driver.Navigate().GoToUrl("https://sweetshop.netlify.app/");
             IWebElement browseSweets = driver.FindElement(By.LinkText("Sweets"));
@@ -105,14 +108,12 @@ namespace SeleniumStuff
                 Console.WriteLine(total == basketGbp ? "Total Values match!" : "Total Values do not match!!");
 
             }
-            driver.Quit();
         }
         
         [Test]
         public void Test2()
         {
             // Validate wrong login information 
-            IWebDriver driver = new ChromeDriver();
             driver.Navigate().GoToUrl("https://sweetshop.netlify.app/");
             driver.Manage().Window.Maximize();
             driver.Manage().Cookies.DeleteAllCookies();
@@ -131,15 +132,12 @@ namespace SeleniumStuff
             {
                 Console.WriteLine("Invalid Login text is displayed!");
             }
-
-            driver.Quit();
         }
         
         [Test]
         public void Test3()
         {
             // Catch missing image
-            IWebDriver driver = new ChromeDriver();
             driver.Manage().Window.Maximize();
             driver.Navigate().GoToUrl("https://sweetshop.netlify.app/");
             IWebElement browseSweets = driver.FindElement(By.LinkText("Sweets"));
@@ -151,8 +149,8 @@ namespace SeleniumStuff
             {
                 // Find the image inside each product card
                 IWebElement imageElement = productCard.FindElement(By.CssSelector("img.card-img-top"));
-                string imageUrl = imageElement.GetAttribute("src"); // Getting the image source URL
-                var jsExecutor = (IJavaScriptExecutor)driver; // Using JavaScript to access natural width and height
+                string imageUrl = imageElement.GetAttribute("src"); 
+                var jsExecutor = (IJavaScriptExecutor)driver; // Using JavaScript to access natural width and height as supposedly C# cannot
                 var imageWidth = (long)jsExecutor.ExecuteScript("return arguments[0].naturalWidth;", imageElement);
                 var imageHeight = (long)jsExecutor.ExecuteScript("return arguments[0].naturalHeight;", imageElement);
 
@@ -170,8 +168,6 @@ namespace SeleniumStuff
                     Console.WriteLine("Image is valid and size is correct (500px width and 300px height).");
                 }
             }
-
-            driver.Quit();
         }
 
         [Test]
@@ -180,8 +176,7 @@ namespace SeleniumStuff
             // deleting and adding things to the cart updates the total, along with shipping
             
             decimal total = 0;
-
-            IWebDriver driver = new ChromeDriver();
+            
             driver.Manage().Window.Maximize();
             driver.Navigate().GoToUrl("https://sweetshop.netlify.app/");
             IWebElement browseSweets = driver.FindElement(By.LinkText("Sweets"));
@@ -296,11 +291,25 @@ namespace SeleniumStuff
                     Console.WriteLine("Error emptying basket!"); // This always displays Error emptying basket, even though the basket is empty. 
                 }
                 Thread.Sleep(2000);
-            driver.Quit();
         }
-    public void Test5()
+           public void Test5()
             {
                 // check correct payment and billing information or incorrect billing information
             }
-        }
+
+            public void Test6()
+            {
+                // We can maybe visit the log-in page and validate a couple of things there - we can sort the columns and validate the totals are sorting correctly 
+            }
+            
+            [TearDown]
+            public void Teardown()
+            {
+                if (driver != null)
+                {
+                    driver.Quit();
+                    driver.Dispose();
+                }
+            }
+         }
     }
