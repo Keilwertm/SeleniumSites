@@ -1,5 +1,6 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Interactions;
 
 namespace SeleniumStuff
 {
@@ -18,15 +19,6 @@ namespace SeleniumStuff
             driver.Navigate().GoToUrl("https://sweetshop.netlify.app/");
             driver.Manage().Window.Maximize();
             driver.Manage().Cookies.DeleteAllCookies();
-    
-            IWebElement loginMainPage = driver.FindElement(By.LinkText("Login"));
-            loginMainPage.Click();
-
-            IWebElement emailLogIn = driver.FindElement(By.Id("exampleInputEmail"));
-            emailLogIn.SendKeys("testemail@gmail.com");
-
-            IWebElement password = driver.FindElement(By.Id("exampleInputPassword"));
-            password.SendKeys("wq@#as#$!~AAA!" + Keys.Enter);
 
             IWebElement sweetShop = driver.FindElement(By.ClassName("navbar-brand"));
             sweetShop.Click();
@@ -295,11 +287,55 @@ namespace SeleniumStuff
            public void Test5()
             {
                 // check correct payment and billing information or incorrect billing information
+                driver.Manage().Window.Maximize();
+                driver.Navigate().GoToUrl("https://sweetshop.netlify.app/");
+                
             }
-
+             
+            [Test]
             public void Test6()
             {
-                // We can maybe visit the log-in page and validate a couple of things there - we can sort the columns and validate the totals are sorting correctly 
+                // Validate table is sorting correctly in the login page
+                driver.Manage().Window.Maximize();
+                driver.Navigate().GoToUrl("https://sweetshop.netlify.app/");
+                
+                IWebElement loginMainPage = driver.FindElement(By.LinkText("Login"));
+                loginMainPage.Click();
+
+                IWebElement emailLogIn = driver.FindElement(By.Id("exampleInputEmail"));
+                emailLogIn.SendKeys("testemail@gmail.com");
+
+                IWebElement password = driver.FindElement(By.Id("exampleInputPassword"));
+                password.SendKeys("wq@#as#$!~AAA!" + Keys.Enter);
+                
+                // let us grab the default value of the first in the table (1) double click to sort the table and validate that the new top number is MORE THAN the first stored value. 
+                
+                IWebElement firstValue = driver.FindElement(By.CssSelector("th[scope='row']"));
+                string text = firstValue.Text; // e.g. "#1"
+                int number = int.Parse(text.Replace("#", ""));
+                
+                IWebElement orderNumber = driver.FindElement(By.CssSelector("a.order-number[href*='SortTable(0']"));
+                Actions actions = new Actions(driver);
+                actions.DoubleClick(orderNumber).Perform();
+
+                Thread.Sleep(1000); 
+
+                firstValue = driver.FindElement(By.CssSelector("th[scope='row']"));
+                string text2 = firstValue.Text; // e.g. "#3"
+                int number2 = int.Parse(text2.Replace("#", "")); 
+
+                if (number2 > number)
+                {
+                    Console.WriteLine("Sorting table working as intended.");
+                }
+                else if (number2 < number)
+                {
+                    Console.WriteLine("Sorting table is not working as intended.");
+                }
+                else
+                {
+                    Console.WriteLine("Table didn't change or sorting had no effect.");
+                }
             }
             
             [TearDown]
