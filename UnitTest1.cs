@@ -1,20 +1,22 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Interactions;
+using OpenQA.Selenium.Support.UI;
 
 namespace SeleniumStuff
 {
     [TestFixture]
     [Parallelizable(ParallelScope.Self)]
-    
+
     public class SweetStuff
-    { 
+    {
         private IWebDriver driver;
-        
+
         [SetUp]
         public void Setup()
         {
-            Console.WriteLine($"[{Thread.CurrentThread.ManagedThreadId}] Starting test: {TestContext.CurrentContext.Test.Name}");
+            Console.WriteLine(
+                $"[{Thread.CurrentThread.ManagedThreadId}] Starting test: {TestContext.CurrentContext.Test.Name}");
             driver = new ChromeDriver(); // <-- removed `IWebDriver`
             driver.Navigate().GoToUrl("https://sweetshop.netlify.app/");
             driver.Manage().Window.Maximize();
@@ -23,7 +25,7 @@ namespace SeleniumStuff
             IWebElement sweetShop = driver.FindElement(By.ClassName("navbar-brand"));
             sweetShop.Click();
         }
-        
+
         [Test]
         public void Test1()
         {
@@ -31,7 +33,6 @@ namespace SeleniumStuff
 
             decimal total = 0;
             
-            driver.Manage().Window.Maximize();
             driver.Navigate().GoToUrl("https://sweetshop.netlify.app/");
             IWebElement browseSweets = driver.FindElement(By.LinkText("Sweets"));
             browseSweets.Click();
@@ -101,13 +102,12 @@ namespace SeleniumStuff
 
             }
         }
-        
+
         [Test]
         public void Test2()
         {
             // Validate wrong login information 
             driver.Navigate().GoToUrl("https://sweetshop.netlify.app/");
-            driver.Manage().Window.Maximize();
             driver.Manage().Cookies.DeleteAllCookies();
             IWebElement loginMainPage = driver.FindElement(By.LinkText("Login"));
             loginMainPage.Click();
@@ -125,12 +125,11 @@ namespace SeleniumStuff
                 Console.WriteLine("Invalid Login text is displayed!");
             }
         }
-        
+
         [Test]
         public void Test3()
         {
             // Catch missing image
-            driver.Manage().Window.Maximize();
             driver.Navigate().GoToUrl("https://sweetshop.netlify.app/");
             IWebElement browseSweets = driver.FindElement(By.LinkText("Sweets"));
             browseSweets.Click();
@@ -141,8 +140,9 @@ namespace SeleniumStuff
             {
                 // Find the image inside each product card
                 IWebElement imageElement = productCard.FindElement(By.CssSelector("img.card-img-top"));
-                string imageUrl = imageElement.GetAttribute("src"); 
-                var jsExecutor = (IJavaScriptExecutor)driver; // Using JavaScript to access natural width and height as supposedly C# cannot
+                string imageUrl = imageElement.GetAttribute("src");
+                var jsExecutor =
+                    (IJavaScriptExecutor)driver; // Using JavaScript to access natural width and height as supposedly C# cannot
                 var imageWidth = (long)jsExecutor.ExecuteScript("return arguments[0].naturalWidth;", imageElement);
                 var imageHeight = (long)jsExecutor.ExecuteScript("return arguments[0].naturalHeight;", imageElement);
 
@@ -166,10 +166,9 @@ namespace SeleniumStuff
         public void Test4()
         {
             // deleting and adding things to the cart updates the total, along with shipping
-            
+
             decimal total = 0;
             
-            driver.Manage().Window.Maximize();
             driver.Navigate().GoToUrl("https://sweetshop.netlify.app/");
             IWebElement browseSweets = driver.FindElement(By.LinkText("Sweets"));
             browseSweets.Click();
@@ -184,8 +183,8 @@ namespace SeleniumStuff
             IWebElement item2 = driver.FindElement(By.CssSelector("a.addItem[data-id='2']"));
             IWebElement secondPrice = driver.FindElement(By.XPath("(//small[@class='text-muted'])[2]"));
             string price2 = secondPrice.Text;
-            decimal priceN2 = decimal.Parse(price2.Replace("\u00a3", "").Trim());       
-            
+            decimal priceN2 = decimal.Parse(price2.Replace("\u00a3", "").Trim());
+
             // There is probably a way better way to do this, because I use these in Test1, a more compact way. A UI Map or something.
 
             IWebElement item3 = driver.FindElement(By.CssSelector("a.addItem[data-id='3']"));
@@ -232,71 +231,153 @@ namespace SeleniumStuff
             string basketTotal = basketHere.Text;
             decimal basketGbp = decimal.Parse(basketTotal.Replace("\u00a3", "").Trim());
 
-            if (total == basketGbp)
-            {
-                Console.WriteLine(total == basketGbp ? "Total Values match!" : "Total Values do not match!!");
-            }
+            Assert.That(total, Is.EqualTo(basketGbp), "Basket total does not match expected total.");
 
             for (int i = 0;
                  i < loopCandyToCart;
-                 i++) 
+                 i++)
             {
                 IWebElement quantity1 = driver.FindElement(By.XPath("(//small[@class='text-muted'])[1]"));
                 quantity1.Click();
 
-                IWebElement deleteItem1 = driver.FindElement(By.XPath("//a[contains(@href, 'removeItem') and contains(@class, 'small')]"));
+                IWebElement deleteItem1 =
+                    driver.FindElement(By.XPath("//a[contains(@href, 'removeItem') and contains(@class, 'small')]"));
                 deleteItem1.Click();
-                
+
                 Thread.Sleep(1000);
                 IAlert alert = driver.SwitchTo().Alert();
                 alert.Accept();
             }
-            
+
             IWebElement sweetHome = driver.FindElement(By.CssSelector("a.navbar-brand[href='/']"));
             sweetHome.Click();
-            IWebElement browseSweetsButton = driver.FindElement(By.CssSelector("a.btn.btn-primary.btn-lg.sweets[href='/sweets']"));
-            
+            IWebElement browseSweetsButton =
+                driver.FindElement(By.CssSelector("a.btn.btn-primary.btn-lg.sweets[href='/sweets']"));
+
             browseSweetsButton.Click();
-            
+
             IWebElement item8 = driver.FindElement(By.CssSelector("a.addItem[data-id='8']"));
             IWebElement item9 = driver.FindElement(By.CssSelector("a.addItem[data-id='8']"));
-            
+
             for (int i = 0; i < loopCandyToCart; i++)
             {
                 item8.Click();
                 item9.Click();
             }
-            
-            driver.Navigate().GoToUrl("https://sweetshop.netlify.app/basket"); 
-            // I know this isn't ideal but EVERYTHING gives stale element after used once and I already got around three others
+
+            driver.Navigate().GoToUrl("https://sweetshop.netlify.app/basket");
+            // I know this isn't ideal but EVERYTHING gives stale element after used once and I already got around two other instances of this
             IWebElement emptyBasketButton = driver.FindElement(By.XPath("//a[contains(@onclick, 'emptyBasket')]"));
-                emptyBasketButton.Click();
-                IAlert alert2 = driver.SwitchTo().Alert();
-                alert2.Accept();
-                
-                if (basketGbp == 0.00m)
-                {
-                    Console.WriteLine("Empty Basket!");
-                }
-                else if (basketGbp > 0)
-                {
-                    Console.WriteLine("Error emptying basket!"); // This always displays Error emptying basket, even though the basket is empty. 
-                }
-                Thread.Sleep(2000);
-        }
-           public void Test5()
+            emptyBasketButton.Click();
+            IAlert alert2 = driver.SwitchTo().Alert();
+            alert2.Accept();
+
+            if (basketGbp == 0.00m)
             {
-                // check correct payment and billing information or incorrect billing information
-                driver.Manage().Window.Maximize();
-                driver.Navigate().GoToUrl("https://sweetshop.netlify.app/");
-                
+                Console.WriteLine("Empty Basket!");
             }
-             
+            else if (basketGbp > 0)
+            {
+                Console.WriteLine(
+                    "Error emptying basket!"); // This always displays Error emptying basket, even though the basket is empty. 
+            }
+
+            Thread.Sleep(2000);
+        }
+
+        [Test]
+        public void Test5()
+        {
+            // check correct payment and billing information or incorrect billing information
+            driver.Navigate().GoToUrl("https://sweetshop.netlify.app/");
+
+            // Adding items to the cart 
+
+            Random random = new Random();
+            int loopCandyToCart = random.Next(3, 7);
+
+            IWebElement browseSweets = driver.FindElement(By.LinkText("Sweets"));
+            browseSweets.Click();
+
+            IWebElement item8 = driver.FindElement(By.CssSelector("a.addItem[data-id='8']"));
+            IWebElement item9 = driver.FindElement(By.CssSelector("a.addItem[data-id='8']"));
+
+            for (int i = 0; i < loopCandyToCart; i++)
+            {
+                item8.Click();
+                item9.Click();
+            }
+
+            // checking billing information is correct, and when incorrect displays the error message 
+
+            IWebElement basketLink = driver.FindElement(By.CssSelector("a.nav-link[href='/basket']"));
+            basketLink.Click();
+
+            IWebElement firstName = driver.FindElement(By.CssSelector("input#name"));
+            firstName.SendKeys("mel");
+            IWebElement lastNameInput = driver.FindElement(By.XPath("(//input[@id='name'])[2]"));
+            lastNameInput.SendKeys("Smith");
+            IWebElement emailInput = driver.FindElement(By.CssSelector("input#email"));
+            emailInput.SendKeys("mel@gmail.com");
+            IWebElement address2Input = driver.FindElement(By.CssSelector("input#address2"));
+            address2Input.SendKeys("stonewall drive");
+            IWebElement zipInput = driver.FindElement(By.CssSelector("input#zip"));
+            zipInput.SendKeys("12345");
+            IWebElement ccNameInput = driver.FindElement(By.CssSelector("input#cc-name"));
+            ccNameInput.SendKeys("mel k");
+            IWebElement ccNumberInput = driver.FindElement(By.CssSelector("input#cc-number"));
+            ccNumberInput.SendKeys("12345");
+            IWebElement ccExpirationInput = driver.FindElement(By.CssSelector("input#cc-expiration"));
+            ccExpirationInput.SendKeys("05/25");
+            IWebElement ccCvvInput = driver.FindElement(By.CssSelector("input#cc-cvv"));
+            ccCvvInput.SendKeys("778");
+
+            IWebElement countryDropdown = driver.FindElement(By.Id("country"));
+            SelectElement selectCountry = new SelectElement(countryDropdown);
+            selectCountry.SelectByText("United Kingdom");
+
+            IWebElement cityDropdown = driver.FindElement(By.Id("city"));
+            SelectElement selectCity = new SelectElement(cityDropdown);
+            selectCity.SelectByText("Bristol");
+
+            IWebElement continueButton = driver.FindElement(By.CssSelector("button.btn.btn-primary.btn-lg.btn-block[type='submit']"));
+            continueButton.Click();
+            
+            firstName.SendKeys("#!@#$!!");
+            lastNameInput.SendKeys("!@#$%SFE!!!!!#@F");
+            emailInput.SendKeys("wrong wrong");
+            address2Input.SendKeys("321321321!!!!!");
+            ccNameInput.SendKeys("32142132!!!!");
+            ccNumberInput.SendKeys("abc");
+            ccExpirationInput.SendKeys("idk");
+            ccCvvInput.SendKeys("771546568");
+            continueButton.Click();
+
+            try
+            {
+                bool emailErrorVisible = driver.FindElement(By.XPath("//div[contains(text(), 'Please enter a valid email address')]")).Displayed;
+                bool lastNameErrorVisible = driver.FindElement(By.XPath("//div[contains(text(), 'Valid last name is required.')]")).Displayed;
+                bool cvvErrorVisible = driver.FindElement(By.XPath("//div[contains(text(), 'Security code required')]")).Displayed;
+
+                if (emailErrorVisible && lastNameErrorVisible && cvvErrorVisible)
+                {
+                    Console.WriteLine("All errors are showing properly.");      // I'll have to check this later
+                }
+                else
+                {
+                    Console.WriteLine("Some errors are not visible, validation failed.");
+                }
+            }
+            catch (NoSuchElementException)
+            {
+                Console.WriteLine("Some errors are not visible, validation failed.");
+            }
+        }
+
             [Test]
             public void Test6()
             {
                 // Validate table is sorting correctly in the login page
-                driver.Manage().Window.Maximize();
                 driver.Navigate().GoToUrl("https://sweetshop.netlify.app/");
                 
                 IWebElement loginMainPage = driver.FindElement(By.LinkText("Login"));
@@ -336,16 +417,16 @@ namespace SeleniumStuff
                 {
                     Console.WriteLine("Table didn't change or sorting had no effect.");
                 }
+                
             }
             
             [TearDown]
             public void Teardown()
             {
-                if (driver != null)
-                {
                     driver.Quit();
                     driver.Dispose();
-                }
             }
          }
     }
+    
+    // Improvements I can make - Introduce a page object model? Add in more asserts? Refactor repeated code? Get parallel tests working?
